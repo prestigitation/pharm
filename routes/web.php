@@ -22,3 +22,7 @@ Route::get('/', function () {
 Route::post('product/create','ProductController@store');
 Route::resource('product', 'ProductController')->except('index');
 
+
+//Auth::routes();
+
+

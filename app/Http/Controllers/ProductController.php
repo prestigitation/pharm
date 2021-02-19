@@ -7,7 +7,10 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
+
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
 {
@@ -26,9 +29,7 @@ class ProductController extends Controller
             'contraindications_textarea' => 'nullable',
         ]);
         $categories = $this->categories;
-        if($validator->fails()) {
-            return view('create',compact('categories'));
-        } else {
+
             $product = Product::create([
                 'name' => $formData->name,
                 'category' => Category::where('name', $formData->categories)->first()->id,
@@ -39,15 +40,6 @@ class ProductController extends Controller
             ]);
 
             Storage::putFileAs('./public/img/',$request->formFile,(string) Product::count().'.jpeg');
-
-            return redirect('/')->with('alert','test');
-
-        }
-
-
-
-
-
     }
     public function create() { // GET
         $categories = $this->categories;

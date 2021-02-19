@@ -1,11 +1,6 @@
+// Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-@import '~bootstrap/scss/bootstrap';
+// Variables
 @import 'variables';
-
-/*@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";*/
-
-.content_text {
-    margin: 15px;
-}
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';

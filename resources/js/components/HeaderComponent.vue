@@ -31,7 +31,9 @@
     </b-collapse>
   </b-navbar>
 
-  <b-alert variant="success">Success Alert</b-alert>
+
+<notifications group="alert" width="355" position="bottom right" />
+
 </div>
 
 
@@ -42,7 +44,19 @@
 <script>
     export default {
         mounted() {
-            console.log('header mounted.')
+            if(sessionStorage.getItem('status') != undefined && sessionStorage.getItem('title') != undefined && sessionStorage.getItem('message') != undefined) {
+                this.$notify({
+                group: 'alert',
+                type: sessionStorage.getItem('status'),
+                title: sessionStorage.getItem('title'),
+                text: sessionStorage.getItem('message'),
+                duration : 10000,
+                });
+
+                setTimeout(sessionStorage.clear(),10000);
+            }
+
         },
+
     }
 </script>

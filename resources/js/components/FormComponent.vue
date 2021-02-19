@@ -27,7 +27,7 @@
           v-model="form.categories"
           required
         >
-            <option v-for="category in categories" >
+            <option v-for="category in categories" :key='category'>
                 {{ category.name }}
             </option>
         </b-form-select>
@@ -74,9 +74,6 @@
 
     </b-form>
 
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
 
   </div>
 
@@ -84,7 +81,9 @@
 </template>
 
 <script>
+
 const axios = require('axios');
+import  { sessionStore,sessionClear } from '../app';
   export default {
     data() {
       return {
@@ -103,29 +102,31 @@ const axios = require('axios');
           let formData = new FormData();
           formData.append('formProps', JSON.stringify(this.form));
           formData.append('formFile', this.form.file);
-
          axios({
             method: 'post',
             url: 'create',
-            data: formData ,
+            data: formData,
             headers: {'Content-Type': 'multipart/form-data' }
             })
-            /*.then(function (response) {
-              // window.location.href = '/';
-            })*/
-            .catch(function (response) {
-                console.log(response);
-            });
-            },
+            .then(function (response) {
+               window.location.replace('/');
+               //sessionClear();
+               sessionStore('success','Добавление товара', 'Медикамент был успешно добавлен');
 
-       // alert(JSON.stringify(this.form));
+            })
+            .catch(function (response) {
+                window.location.replace('/product/create')
+                sessionStore('error','Добавление товара', 'Форма не была отправлена. Укажите корректные данные');
+            });
+
+            },
       onReset(event) {
         event.preventDefault()
-        this.form.contraindications_textarea = ''
-        this.form.description_textarea = ''
-        this.form.categories = [];
+        this.form.contraindications = ''
+        this.form.description = ''
+        this.form.categories = '';
         this.form.name = ''
-        this.form.checked = []
+        this.price = ''
         this.show = false
         this.$nextTick(() => {
           this.show = true

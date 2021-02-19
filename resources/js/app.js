@@ -16,11 +16,13 @@ import VueRouter from 'vue-router';
 import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default.css';*/
 
+
+
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import PortalVue from 'portal-vue';
-import FlashMessage from '@smartweb/vue-flash-message';
+import Notifications from 'vue-notification'
 
 window.Vue = require('vue').default;
 
@@ -30,11 +32,11 @@ window.Vue = require('vue').default;
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('header-component', require('./components/HeaderComponent.vue').default);
 
-
-Vue.use(FlashMessage);
 Vue.use(PortalVue);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(Notifications);
+
 
 
 /**
@@ -47,4 +49,11 @@ window.onload = function() {
     new Vue({
         el: '#app'
     });
+}
+
+
+export function sessionStore(status, title, message) {
+    sessionStorage.setItem('status', status.toString());
+    sessionStorage.setItem('title', title.toString());
+    sessionStorage.setItem('message', message.toString());
 }
