@@ -1,0 +1,48 @@
+<template>
+    <div>
+  <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar-brand href="/" class="lead">PharmCrm</b-navbar-brand>
+
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item href="#" class='text-center'>Все медикаменты</b-nav-item>
+      </b-navbar-nav>
+
+        <b-nav-form class="mr-auto text-center ml-auto">
+          <b-form-input class="m-1" placeholder="Поиск"></b-form-input>
+          <b-button class="m-1 mr-auto text-center ml-auto" type="submit">Найти</b-button>
+        </b-nav-form>
+
+      <!-- Right aligned nav items -->
+      <b-navbar-nav>
+        <b-nav-item-dropdown class='text-center ml-auto mr-auto' right>
+          <!-- Using 'button-content' slot -->
+          <template #button-content>
+            <em>Пользователь</em>
+          </template>
+          <b-dropdown-item href="/users/id">Мой профиль</b-dropdown-item>
+          <b-dropdown-item href="/login">Войти</b-dropdown-item>
+          <b-dropdown-item href="/register">Зарегистрироваться</b-dropdown-item>
+          <b-dropdown-item href="/logout">Выйти</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
+
+  <b-alert variant="success">Success Alert</b-alert>
+</div>
+
+
+</template>
+
+
+
+<script>
+    export default {
+        mounted() {
+            console.log('header mounted.')
+        },
+    }
+</script>
