@@ -89,8 +89,8 @@ import  { sessionStore,sessionClear } from '../app';
       return {
         form: {
           file: this.file,
-          name: '',
-          categories:this.categories.id,
+         // name: '',
+         // categories:this.categories.id,
         },
         show: true,
       }
@@ -115,7 +115,7 @@ import  { sessionStore,sessionClear } from '../app';
 
             })
             .catch(function (response) {
-                window.location.replace('/product/create')
+                window.location.replace('/product/create');
                 sessionStore('error','Добавление товара', 'Форма не была отправлена. Укажите корректные данные');
             });
 

@@ -31,11 +31,13 @@ window.Vue = require('vue').default;
 
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('header-component', require('./components/HeaderComponent.vue').default);
+Vue.component('dashboard-component', require('./components/DashboardComponent.vue').default);
 
 Vue.use(PortalVue);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Notifications);
+//Vue.use(VueRouter);
 
 
 
@@ -49,6 +51,10 @@ window.onload = function() {
     new Vue({
         el: '#app'
     });
+
+    new Vue({
+        el: '#dashboard'
+    })
 }
 
 

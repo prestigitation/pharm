@@ -22,10 +22,10 @@
           <template #button-content>
             <em>Пользователь</em>
           </template>
-          <b-dropdown-item href="/users/id">Мой профиль</b-dropdown-item>
-          <b-dropdown-item href="/login">Войти</b-dropdown-item>
-          <b-dropdown-item href="/register">Зарегистрироваться</b-dropdown-item>
-          <b-dropdown-item href="/logout">Выйти</b-dropdown-item>
+          <b-dropdown-item href='/user/' v-if="auth" id="user"> Мой профиль </b-dropdown-item>
+          <b-dropdown-item href="/login" v-if="!auth">Войти</b-dropdown-item>
+          <b-dropdown-item href="/register" v-if="!auth">Зарегистрироваться</b-dropdown-item>
+          <b-dropdown-item @click="logout" v-if="auth">Выйти</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -54,9 +54,25 @@
                 });
 
                 setTimeout(sessionStorage.clear(),10000);
-            }
+            } // показ уведомлений
 
+            document.getElementById('user').href+= this.$attrs.users.id; // создать ссылку, ведущую на id пользователя
         },
+        methods : {
+            logout() {
+                axios.post('/logout')
+            .then( () => {
+                window.location.replace('/');
+                });
+            },
+        },
+        computed : {
+            auth() {
+                if(this.$attrs.users != null) { // см. view
+                    return true;
+                } else return false;
+            }
+        }
 
     }
 </script>
