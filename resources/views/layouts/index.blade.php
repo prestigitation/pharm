@@ -25,9 +25,12 @@
     </script>
 
    <div id='app'>
-        <header-component :users='@json(Auth::user())'> </header-component>
 
-        @yield('content')
+        <router-view>
+            <header-component></header-component>
+
+        </router-view>
+
 
     </div>
         @stack('footer_scripts')

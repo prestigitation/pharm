@@ -110,7 +110,6 @@ import  { sessionStore,sessionClear } from '../app';
             })
             .then(function (response) {
                window.location.replace('/');
-               //sessionClear();
                sessionStore('success','Добавление товара', 'Медикамент был успешно добавлен');
 
             })

@@ -22,7 +22,17 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import PortalVue from 'portal-vue';
-import Notifications from 'vue-notification'
+import Notifications from 'vue-notification';
+//import router from './router/dashboard'
+import DashboardComponent from './components/Dashboard/DashboardComponent.vue'
+import UserProfile from './components/UserProfile.vue'
+import userscreate from './components/Dashboard/userscreate.vue'
+import HeaderComponent from './components/HeaderComponent.vue'
+import DashboardUsers from './components/Dashboard/DashboardUsers.vue'
+import Section from './components/Dashboard/Section.vue'
+import SectionAction from './components/Dashboard/SectionAction.vue'
+//import router from './router/dashboard'
+
 
 window.Vue = require('vue').default;
 
@@ -31,13 +41,17 @@ window.Vue = require('vue').default;
 
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('header-component', require('./components/HeaderComponent.vue').default);
-Vue.component('dashboard-component', require('./components/DashboardComponent.vue').default);
+Vue.component('userscreate', require('./components/Dashboard/userscreate.vue').default);
+
 
 Vue.use(PortalVue);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Notifications);
-//Vue.use(VueRouter);
+Vue.use(VueRouter);
+//Vue.use(router);
+
+
 
 
 
@@ -48,13 +62,39 @@ Vue.use(Notifications);
  */
 
 window.onload = function() {
-    new Vue({
-        el: '#app'
+    const routes = [{
+            path: '/',
+            component: HeaderComponent,
+        },
+        {
+            path: '/dashboard',
+            component: DashboardComponent,
+            children: [
+
+
+                //{ path: '', component: DashboardComponent },
+                { path: 'users', component: DashboardUsers, name: 'users' },
+                { path: ':section', component: Section, name: 'section' },
+                { path: ':section/:action', component: SectionAction, name: 'section_action' },
+
+            ]
+        },
+
+    ];
+    const router = new VueRouter({
+        mode: 'history',
+        routes,
+        hashbang: false,
     });
 
     new Vue({
-        el: '#dashboard'
-    })
+        el: '#app',
+        router
+    });
+
+
+
+
 }
 
 

@@ -22,7 +22,17 @@
           <template #button-content>
             <em>Пользователь</em>
           </template>
-          <b-dropdown-item href='/user/' v-if="auth" id="user"> Мой профиль </b-dropdown-item>
+
+
+ <!--<router-link :to="{name: 'user_profile', params: {id: this.$attrs.users.id}}">
+    <b-dropdown-item  v-if="auth" href="/users/:id">
+        Мой Профиль
+    </b-dropdown-item> </router-link>-->
+   <!-- <b-link :to="{ name: 'user_profile', params: { id:this.$attrs.users.id } }">User</b-link> -->
+
+    <!--<b-link :to="{ name: 'user_profile', params: { id:this.$attrs.users.id } }"> User</b-link> -->
+
+
           <b-dropdown-item href="/login" v-if="!auth">Войти</b-dropdown-item>
           <b-dropdown-item href="/register" v-if="!auth">Зарегистрироваться</b-dropdown-item>
           <b-dropdown-item @click="logout" v-if="auth">Выйти</b-dropdown-item>
@@ -33,6 +43,7 @@
 
 
 <notifications group="alert" width="355" position="bottom right" />
+
 
 </div>
 
@@ -56,7 +67,6 @@
                 setTimeout(sessionStorage.clear(),10000);
             } // показ уведомлений
 
-            document.getElementById('user').href+= this.$attrs.users.id; // создать ссылку, ведущую на id пользователя
         },
         methods : {
             logout() {
@@ -65,6 +75,8 @@
                 window.location.replace('/');
                 });
             },
+
+
         },
         computed : {
             auth() {

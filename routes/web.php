@@ -16,18 +16,19 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('{any}', function () {
+    return view('layouts.index');
+})->where('any', '.*');
 
 
-Route::post('product/create','ProductController@store');
+/*Route::post('product/create','ProductController@store');
 Route::resource('product', 'ProductController')->except('index');
 
-Auth::routes();
+ Auth::routes();
 
-Route::prefix('dashboard')->middleware(['auth','employee'])->group(function () {
-       Route::get('/info','DashboardController@info');
-       Route::get('/','DashboardController@index');
+Route::get('/users/{id}','UserController@index');
+
+Route::middleware(['auth', 'employee'])->group(function () {
+    Route::get('/dashboard','DashboardController@index');
 });
-
+*/
