@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <title>PharmCrm</title>
 
         <link rel="stylesheet" href=" {{ asset('css/app.css') }}">
@@ -18,6 +20,7 @@
         </style>
     </head>
     <body>
+
 
     <script type="text/javascript">
             if(sessionStorage.getItem('status') == undefined && sessionStorage.getItem('title') == undefined && sessionStorage.getItem('message') == undefined)
@@ -34,5 +37,8 @@
 
     </div>
         @stack('footer_scripts')
+
+
+
     </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -20,6 +21,12 @@ Route::get('{any}', function () {
     return view('layouts.index');
 })->where('any', '.*');
 
+
+Route::prefix("auth")->group(function () {
+    Route::post("login", "AuthController@login");
+    Route::post("register", "AuthController@register");
+    Route::post("logout", "AuthController@logout");
+});
 
 /*Route::post('product/create','ProductController@store');
 Route::resource('product', 'ProductController')->except('index');

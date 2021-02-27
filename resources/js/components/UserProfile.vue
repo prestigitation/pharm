@@ -1,7 +1,7 @@
 <template>
-<router-view>
-    <h2> Привет я юзер </h2>
-</router-view>
+    <div>
+        Привет
+    </div>
 
 
 
