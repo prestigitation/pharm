@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
+
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex'
@@ -23,16 +25,18 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import PortalVue from 'portal-vue';
 import Notifications from 'vue-notification';
-import DashboardComponent from './components/Dashboard/DashboardComponent.vue'
-import UserProfile from './components/UserProfile.vue'
-import userscreate from './components/Dashboard/userscreate.vue'
-import HeaderComponent from './components/HeaderComponent.vue'
-import DashboardUsers from './components/Dashboard/DashboardUsers.vue'
-import Section from './components/Dashboard/Section.vue'
-import SectionAction from './components/Dashboard/SectionAction.vue'
+import UserProfile from './components/UserProfile.vue';
+import HeaderComponent from './components/HeaderComponent.vue';
+import DashboardUsers from './components/Dashboard/DashboardUsers.vue';
+import Section from './components/Dashboard/Section.vue';
+import SectionAction from './components/Dashboard/SectionAction.vue';
 import createPersistedState from 'vuex-persistedstate';
+import { trim } from 'lodash';
 
-//import router from './router/dashboard'
+import DepartmentsCreate from './components/Dashboard/DepartmentsCreate.vue'
+import UsersData from './components/Dashboard/UsersData.vue';
+import UsersUpdate from './components/Dashboard/UsersUpdate.vue';
+import DashboardComponent from './components/Dashboard/DashboardComponent.vue';
 
 
 window.Vue = require('vue').default;
@@ -44,7 +48,12 @@ window.Vue = require('vue').default;
 
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('header-component', require('./components/HeaderComponent.vue').default);
-Vue.component('userscreate', require('./components/Dashboard/userscreate.vue').default);
+Vue.component('UsersData', require('./components/Dashboard/UsersData.vue').default);
+Vue.component('UsersUpdate', require('./components/Dashboard/UsersUpdate.vue').default);
+Vue.component('DashboardComponent', require('./components/Dashboard/DashboardComponent.vue').default);
+Vue.component('Section', ('./components/Dashboard/Section.vue').default);
+Vue.component('SectionAction', ('./components/Dashboard/SectionAction.vue').default);
+Vue.component('DepartmentsCreate', require('./components/Dashboard/DepartmentsCreate.vue').default);
 
 
 
@@ -55,6 +64,13 @@ Vue.use(Notifications);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
+
+
+export function sessionStore(status, title, message) {
+    sessionStorage.setItem('status', status.toString());
+    sessionStorage.setItem('title', title.toString());
+    sessionStorage.setItem('message', message.toString());
+}
 
 
 
@@ -142,13 +158,11 @@ window.onload = function() {
                 user: null,
             }
         },
+        methods: {
+
+        },
 
     })
 
-};
 
-export function sessionStore(status, title, message) {
-    sessionStorage.setItem('status', status.toString());
-    sessionStorage.setItem('title', title.toString());
-    sessionStorage.setItem('message', message.toString());
-}
+};

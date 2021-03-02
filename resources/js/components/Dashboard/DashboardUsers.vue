@@ -4,6 +4,8 @@
 
 
 <script>
+import UsersData from './UsersData';
+import UsersUpdate from './UsersUpdate';
     export default {
 
     }

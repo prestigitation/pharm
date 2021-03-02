@@ -18,7 +18,7 @@ class CreateWorkers extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('role')->index();
-            $table->foreign('role')->references('role')->on('roles');
+            $table->foreign('role')->references('name')->on('roles');
             $table->bigInteger('department_id')->unsigned();
             $table->foreign('department_id')->references('id')->on('departments');
             $table->bigInteger('salary');

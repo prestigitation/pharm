@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     use HasFactory;
+    // поля для массового присваивания
+    protected $fillable = ['city','address'];
 
     public function users() {
         return $this->hasMany('App\User');

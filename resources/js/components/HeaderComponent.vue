@@ -122,7 +122,6 @@
             return {
                     login: '',
                     password: '',
-                    checking_password:'',
                     email:'',
                     csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     generalError:'',

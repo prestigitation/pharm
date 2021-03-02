@@ -28,6 +28,20 @@ Route::prefix("auth")->group(function () {
     Route::post("logout", "AuthController@logout");
 });
 
+
+Route::prefix("dashboard")->group(function() {
+    Route::prefix("users")->group(function () {
+        Route::post("data", "UserController@get");
+        Route::post("update", "UserController@update");
+    });
+
+    Route::prefix("departments")->group(function () {
+        Route::post("create", "DepartmentController@create");
+        Route::post("update", "DepartmentController@update");
+    });
+});
+
+
 /*Route::post('product/create','ProductController@store');
 Route::resource('product', 'ProductController')->except('index');
 

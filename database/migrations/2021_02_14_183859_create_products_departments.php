@@ -13,7 +13,7 @@ class CreateProductsDepartments extends Migration
      */
     public function up()
     {
-        Schema::create('products_departments', function (Blueprint $table) {
+        Schema::create('department_product', function (Blueprint $table) {
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
             $table->bigInteger('department_id')->unsigned();
