@@ -1,6 +1,6 @@
 <template>
     <Section>
-        <slot name="section_header">Информация о пользователе </slot>
+        <slot name="section_header"> <span> Информация о пользователе  </span> </slot>
 
         <slot name="section_content">
             <div>Введите имя пользователя, по которому вы хотите получить информацию: </div>

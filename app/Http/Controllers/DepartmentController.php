@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Department;
+use Illuminate\Support\Facades\Storage;
 
 class DepartmentController extends Controller
 {
     public function create(Request $request) {
-        //dd($request->form);
+        $formData = json_decode($request->formProps);
         Department::create([
-            'city' => $request->city,
-            'address' => $request->address
+            'city' => $formData->city,
+            'address' => $formData->address
         ]);
+            Storage::putFileAs('./public/img/departments/',$request->formFile,(string) Department::count().'.jpeg');
     }
 
     public function update() {

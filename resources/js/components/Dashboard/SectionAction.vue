@@ -22,16 +22,6 @@ export default {
         }
 
     },
-    mounted: function()  {
-        console.log(this.$route.params)
-
-    },
-    updated : function()  {
-
-    },
-    methods : {
-
-    },
     computed : {
 
         activeComponent : function() {
