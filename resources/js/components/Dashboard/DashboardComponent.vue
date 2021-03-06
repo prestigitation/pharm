@@ -54,7 +54,7 @@ export default {
     data:function() {
         return {
             sections: {
-                users: ['data','update' ],
+                users: ['create','data','update' ],
                 departments: [ 'create','data','update','destroy' ],
             },
             section:  null,
@@ -71,7 +71,6 @@ export default {
         $route : function(to,from) {
             this.show = false;
             this.$nextTick(() => { this.show = true; });
-
         }
     }
 

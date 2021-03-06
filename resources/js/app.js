@@ -9,8 +9,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex'
+import IntlMessageFormat from 'intl-messageformat';
 
 require('./bootstrap');
+const compiler = require('vue-template-compiler');
 //import "tailwindcss/tailwind.css";
 
 //import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
@@ -37,6 +39,8 @@ import DepartmentsCreate from './components/Dashboard/DepartmentsCreate.vue'
 import UsersData from './components/Dashboard/UsersData.vue';
 import UsersUpdate from './components/Dashboard/UsersUpdate.vue';
 import DashboardComponent from './components/Dashboard/DashboardComponent.vue';
+import axios from 'axios';
+import VueAxios from 'vue-axios'
 
 
 window.Vue = require('vue').default;
@@ -56,13 +60,14 @@ Vue.component('SectionAction', ('./components/Dashboard/SectionAction.vue').defa
 Vue.component('DepartmentsCreate', require('./components/Dashboard/DepartmentsCreate.vue').default);
 
 
-
+Vue.use(axios);
 Vue.use(PortalVue);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Notifications);
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(VueAxios, axios);
 
 
 
@@ -107,6 +112,32 @@ window.onload = function() {
                 return state.user_id;
             },
         },
+        actions: {
+            sendQuery: async(context, data) => {
+                    const headers = {
+                        //'Content-Type': 'multipart/form-data; boundary=---------------------------974767299852498929531610575',
+                        //'Content-Type': 'multipart/form-data',
+                        'Content-type': 'multipart/form-data'
+                    };
+                    //let formData = new FormData();
+                    //formData.append('data', data);
+                    console.log(data);
+                    //console.log(url);
+                    //console.log(JSON.stringify(router.app.$route.params.action));
+                    //   let url = router.app.$route.params.action.toString();
+                    //let ur = new URL("https://crm" + router.app.$route.path).toString();
+                    //console.log(data, url);
+                    //console.log(this.$router);
+                    // console.log(url);
+                    Vue.axios.post(window.location.href, data, headers).then(() => console.log(response));
+                }
+                //url: JSON.stringify(router.app.$route.params.action),
+                //url: url.url,
+                //url: JSON.stringify(router.app.$route.params.action),
+                //url: window.location.href,
+                // url: url,
+                // url: window.location.href,
+        },
         plugins: [createPersistedState()],
     });
 
@@ -133,7 +164,6 @@ window.onload = function() {
             path: '/dashboard',
             component: DashboardComponent,
             children: [
-                //{ path: '', component: DashboardComponent },
                 { path: 'users', component: DashboardUsers, name: 'users' },
                 { path: ':section', component: Section, name: 'section' },
                 { path: ':section/:action', component: SectionAction, name: 'section_action' },
@@ -154,14 +184,9 @@ window.onload = function() {
         store,
         data() {
             return {
-                isModalVisible: false,
                 user: null,
             }
         },
-        methods: {
-
-        },
-
     })
 
 

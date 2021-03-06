@@ -6,7 +6,7 @@
             <div>Введите имя пользователя, по которому вы хотите получить информацию: </div>
 
             <b-form-input v-model="username" class="my-2"></b-form-input>
-            <b-button class="btn my-2" @click.prevent='userGet'> Найти </b-button>
+            <b-button class="btn my-2" @click.prevent="userGet" > Найти </b-button>
 
 
             <b-card bg-variant="primary" text-variant="white" :header="'Пользователь :' + userData.name" class="text-center" v-if="userData">
@@ -30,7 +30,7 @@ import Section from './Section';
         props: ['userData'],
         methods : {
             userGet() {
-                axios({
+                /*axios({
                     method: 'post',
                     url: 'data',
                     data: { username : this.username } ,
@@ -42,12 +42,16 @@ import Section from './Section';
                         // уведомление
                         this.$bvToast.toast('Неправильные параметры запроса', { title : 'Пользовательские данные'});
                     })
-                },
+                },*/
+                this.$store.dispatch('sendQuery', {
+                    data: this.username
+                });
         },
         watched: {
             userData : () => {
                 return response.data.user[0];
             }
         },
+    }
 }
 </script>
