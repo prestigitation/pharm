@@ -26,7 +26,11 @@
           <template #button-content>
             <em>Пользователь</em>
           </template>
-            <b-dropdown-item  v-if="this.$store.getters.getAuth == true"> <router-link :to="{ name: 'user_profile', params: { id: this.$store.getters.getAuthUser } }"> Мой Профиль </router-link> </b-dropdown-item>
+            <b-dropdown-item  v-if="this.$store.getters.getAuth == true">
+                <router-link :to="{ name: 'user_profile', params: { id: this.$store.getters.getAuthUser.userId } }">
+                    Мой Профиль
+                </router-link>
+            </b-dropdown-item>
             <b-dropdown-item @click="$bvModal.show('login')" v-if="this.$store.getters.getAuth == false" >Войти</b-dropdown-item>
             <b-dropdown-item @click="$bvModal.show('register')"  v-if="this.$store.getters.getAuth == false">Зарегистрироваться</b-dropdown-item>
             <b-dropdown-item @click="logout" v-if="this.$store.getters.getAuth == true">Выйти</b-dropdown-item>
@@ -127,21 +131,6 @@
                     generalError:'',
             }
         },
-
-        mounted() {
-            if(sessionStorage.getItem('status') != undefined && sessionStorage.getItem('title') != undefined && sessionStorage.getItem('message') != undefined) {
-                this.$notify({
-                group: 'alert',
-                type: sessionStorage.getItem('status'),
-                title: sessionStorage.getItem('title'),
-                text: sessionStorage.getItem('message'),
-                duration : 10000,
-                });
-
-                setTimeout(sessionStorage.clear(),10000);
-            } // показ уведомлений
-
-        },
         methods : {
                 logout() {
                     axios.post('auth/logout')
@@ -172,15 +161,16 @@
                     method: 'post',
                     url: 'auth/register',
                     data:{ login:this.login,password:this.password, email :this.email },
-                    }).catch(function(response) {
+                    }).catch(function() {
                         window.location.reload();
                     })
                     .then( (response) => {
-                        this.$store.commit('authentificate', response.data.user.id)
+                        console.log(response);
+                        this.$store.commit('authentificate',{ userId : response.data.user.id });
                         window.location.reload();
                     })
-                    .catch(function (response) {
-                    console.log(response)
+                    .catch(function () {
+                        window.location.reload();
                     });
                 },
         },

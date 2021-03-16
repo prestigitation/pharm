@@ -26,4 +26,8 @@ class UserController extends Controller
 
         } else return response(500);*/
     }
+
+    public function getPermissions(Request $request) {
+
+    }
 }

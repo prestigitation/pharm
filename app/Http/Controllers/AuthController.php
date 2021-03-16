@@ -33,6 +33,9 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
+        $user->roles()->attach(2);
+
+
         Auth::login($user);
 
         return ["user" => $user];

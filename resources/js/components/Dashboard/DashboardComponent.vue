@@ -31,7 +31,7 @@
 
         </aside>
 
-        <div class="dashboard_content d-flex justify-content-center col-10">
+        <div class="dashboard_content d-flex flex-column justify-content-center align-items-center col-10">
             <router-view> </router-view>
         </div>
     </div>
@@ -45,6 +45,7 @@
 
 <script>
 
+import ProductsCreate from './ProductsCreate';
 import UsersData from './UsersData';
 import UsersUpdate from './UsersUpdate';
 import Section from './Section';
@@ -54,8 +55,11 @@ export default {
     data:function() {
         return {
             sections: {
-                users: ['create','data','update' ],
-                departments: [ 'create','data','update','destroy' ],
+                departments: [ 'create','data','products'],
+                products : ['create','data'],
+                dealers : ['create','data'],
+                roles : ['data'],
+                permissons : ['data'],
             },
             section:  null,
             action : null,

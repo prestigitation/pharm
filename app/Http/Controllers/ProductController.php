@@ -14,39 +14,55 @@ use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
 {
-    public $categories;
-
     public function __construct()
     {
-        $this->categories = Category::all();
+
     }
-
-    public function store(Request $request) { // POST
-        $formData = json_decode($request->formProps);
-
+    public function create(Request $request) { // POST
         $validator = Validator::make($request->toArray(), [
             'price' => 'integer',
             'contraindications_textarea' => 'nullable',
         ]);
-        $categories = $this->categories;
-
+        $categories = Category::with('name');
             $product = Product::create([
-                'name' => $formData->name,
-                'category' => Category::where('name', $formData->categories)->first()->id,
-                'description' => $formData->description,
-                'contraindications' => $formData->contraindications ?? null,
-                'price' => $formData->price,
+                'name' => $this->formProps->name,
+                'category' => Category::where('name', $this->formProps->categories)->first()->id,
+                'description' => $this->formProps->description,
+                'contraindications' => $this->formProps->contraindications ?? null,
+                'price' => $this->formProps->price,
                 'discount_price' => null
             ]);
+            if($request->hasFile('file')) {
+                Storage::putFileAs('./public/img/products/',$request->file('file'),(string) Product::count().'.jpeg');
+            }
+    }
+    public function get() {
+        return [ 'products' => Product::all()];
 
-            Storage::putFileAs('./public/img/',$request->formFile,(string) Product::count().'.jpeg');
     }
-    public function create() { // GET
-        $categories = $this->categories;
-        return view('create',compact('categories'));
+    public function update(Request $request) {
+        dd($request);
+        $product = Product::find($request->updatingId)->first(); // id запрашиваемого дилера
+        $product->update([ // если определенные параметры заданы
+            'category'=> Category::where('name', $this->formProps->categories)->first()->id,
+            'contraindications'=> $this->formProps->contraindications ?? $product->contraindications,
+            'description' => $this->formProps->description ?? $product->description,
+            'name' => $this->formProps->name ?? $product->name,
+            'price' => $this->formProps->price ?? $product->price
+        ]);
+        if($request->hasFile('file')) {
+            Storage::putFileAs('./public/img/departments/',$request->file('file'),(string) $product->id .'.jpeg');
+        }
     }
-    public function show() {}
-    public function update() {}
-    public function destroy() {}
-    public function edit() {}
+    public function delete(Request $request) {
+        $this->__construct();
+        $product = Product::find($request->props['deletingId'])->first();
+        $product->delete();
+    }
+
+
+    public function getCategories() {
+        return Category::all('name');
+    }
+
 }

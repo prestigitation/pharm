@@ -5,18 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Department;
+
 class Product extends Model
 {
-    protected $fillable = ['name', // mass asignment
+    protected $fillable = [
+    'name', // mass asignment
     'category',
     'description',
     'contraindications',
-    'price'
+    'price',
+    'status_id',
+    'department_id',
+    'product_id',
+    'dealer_id'
 ];
     use HasFactory;
 
     public function departments() {
-        return $this->belongsToMany('App\Department');
+        return $this->belongsToMany(Department::class,'department_product');
     }
 
     public function categories() {

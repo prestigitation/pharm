@@ -15,13 +15,9 @@ class CreateDealersTable extends Migration
     {
         Schema::create('dealers', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
-            $table->bigInteger('department_id')->unsigned();
-            $table->foreign('department_id')->references('id')->on('departments');
-            $table->bigInteger('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->bigInteger('price');
-            $table->string('data')->default('null');
-            $table->boolean('status'); // 0 - в пути, 1 - в наличии
+            $table->string('company');
+            $table->string('chief');
+            $table->string('number');
             $table->timestamps();
         });
     }
