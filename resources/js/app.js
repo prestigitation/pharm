@@ -9,18 +9,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex'
-import IntlMessageFormat from 'intl-messageformat';
+
 
 require('./bootstrap');
-const compiler = require('vue-template-compiler');
-//import "tailwindcss/tailwind.css";
-
-//import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
-
-//Vue.use(VueRouter);
-/*import VueMaterial from 'vue-material';
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/default.css';*/
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -39,6 +30,7 @@ import DepartmentsCreate from './components/Dashboard/DepartmentsCreate.vue'
 import UsersData from './components/Dashboard/UsersData.vue';
 import UsersUpdate from './components/Dashboard/UsersUpdate.vue';
 import DashboardComponent from './components/Dashboard/DashboardComponent.vue';
+import ProductsCreate from './components/Dashboard/ProductsCreate.vue'
 import axios from 'axios';
 import VueAxios from 'vue-axios'
 
@@ -46,21 +38,25 @@ import VueAxios from 'vue-axios'
 window.Vue = require('vue').default;
 
 
-
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('form-component', require('./components/FormComponent.vue').default);
+Vue.component('ProductsCreate', require('./components/Dashboard/ProductsCreate.vue').default);
 Vue.component('header-component', require('./components/HeaderComponent.vue').default);
 Vue.component('UsersData', require('./components/Dashboard/UsersData.vue').default);
 Vue.component('UsersUpdate', require('./components/Dashboard/UsersUpdate.vue').default);
 Vue.component('DashboardComponent', require('./components/Dashboard/DashboardComponent.vue').default);
+Vue.component('ProductsData', require('./components/Dashboard/ProductsData.vue').default);
 Vue.component('Section', ('./components/Dashboard/Section.vue').default);
 Vue.component('SectionAction', ('./components/Dashboard/SectionAction.vue').default);
+Vue.component('DepartmentsForm', require('./components/Dashboard/DepartmentsForm.vue').default);
+Vue.component('DepartmentsData', require('./components/Dashboard/DepartmentsData.vue').default);
 Vue.component('DepartmentsCreate', require('./components/Dashboard/DepartmentsCreate.vue').default);
+Vue.component('DepartmentsProducts', require('./components/Dashboard/DepartmentsProducts.vue').default);
+Vue.component('DealersCreate', require('./components/Dashboard/DealersCreate.vue').default);
+Vue.component('DealersData', require('./components/Dashboard/DealersData.vue').default);
+Vue.component('RolesData', require('./components/Dashboard/RolesData.vue').default);
+Vue.component('PermissionsData', require('./components/Dashboard/PermissionsData.vue').default);
 
 
-Vue.use(axios);
+
 Vue.use(PortalVue);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -68,25 +64,6 @@ Vue.use(Notifications);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
-
-
-
-export function sessionStore(status, title, message) {
-    sessionStorage.setItem('status', status.toString());
-    sessionStorage.setItem('title', title.toString());
-    sessionStorage.setItem('message', message.toString());
-}
-
-
-
-
-
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 window.onload = function() {
     const store = new Vuex.Store({
@@ -112,33 +89,8 @@ window.onload = function() {
                 return state.user_id;
             },
         },
-        actions: {
-            sendQuery: async(context, data) => {
-                    const headers = {
-                        //'Content-Type': 'multipart/form-data; boundary=---------------------------974767299852498929531610575',
-                        //'Content-Type': 'multipart/form-data',
-                        'Content-type': 'multipart/form-data'
-                    };
-                    //let formData = new FormData();
-                    //formData.append('data', data);
-                    console.log(data);
-                    //console.log(url);
-                    //console.log(JSON.stringify(router.app.$route.params.action));
-                    //   let url = router.app.$route.params.action.toString();
-                    //let ur = new URL("https://crm" + router.app.$route.path).toString();
-                    //console.log(data, url);
-                    //console.log(this.$router);
-                    // console.log(url);
-                    Vue.axios.post(window.location.href, data, headers).then(() => console.log(response));
-                }
-                //url: JSON.stringify(router.app.$route.params.action),
-                //url: url.url,
-                //url: JSON.stringify(router.app.$route.params.action),
-                //url: window.location.href,
-                // url: url,
-                // url: window.location.href,
-        },
         plugins: [createPersistedState()],
+
     });
 
     const routes = [{
@@ -187,7 +139,7 @@ window.onload = function() {
                 user: null,
             }
         },
-    })
+    });
 
 
 };

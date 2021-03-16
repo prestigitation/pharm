@@ -21,12 +21,6 @@
     </head>
     <body>
 
-
-    <script type="text/javascript">
-            if(sessionStorage.getItem('status') == undefined && sessionStorage.getItem('title') == undefined && sessionStorage.getItem('message') == undefined)
-                sessionStorage.clear();
-    </script>
-
    <div id='app'>
 
         <router-view>
@@ -36,6 +30,7 @@
 
 
     </div>
+
         @stack('footer_scripts')
 
 

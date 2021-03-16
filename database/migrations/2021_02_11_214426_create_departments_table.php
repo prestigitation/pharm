@@ -17,6 +17,8 @@ class CreateDepartmentsTable extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->string('city');
             $table->string('address');
+            $table->bigInteger('chief')->unsigned();
+            $table->foreign('chief')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -1,68 +1,29 @@
 <template>
     <Section>
-        <slot name="section_header"><span> Создание филиала </span> </slot>
-        <slot name="section_body">
+        <div slot="section_header"> Создание филиала </div>
+        <div slot="section_content">
             <div> Введите данные о новом филиале : </div>
-            <b-form id="form" @submit.prevent="departmentsCreate">
-                <b-form-group>
-                    <b-form-input
-                    type="text"
-                    v-model="form.city"
-                    required
-                    placeholder="Введите название города"
-                    class="my-2"></b-form-input>
-
-                    <b-form-input
-                    type="text"
-                    v-model="form.address"
-                    required
-                    placeholder="Введите точный адрес филиала"
-                    class="my-2"></b-form-input>
-
-                    <div> Прикрепите файл </div>
-                    <b-form-file
-                    v-model="form.file"
-                    required
-                    class="my-2"
-                    id="file"
-                    plain
-                    ref="file"></b-form-file>
-                </b-form-group>
-
-                <b-button type="submit"> Отправить </b-button>
+            <b-form>
+                <departments-form @sendData="addData" ></departments-form>
             </b-form>
-        </slot>
+        </div>
     </Section>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import Section from './Section'
+import Section from './Section';
+import UpdateDeleteFunctions from './UpdateDeleteFunctions';
+import DepartmentsForm from './DepartmentsForm.vue';
 export default {
-    data : function() {
-        return {
-            form: {
-                file : this.file,
-            },
-
-        }
-    },
-    props : ['city', 'address'],
+    components: { Section, DepartmentsForm },
+    extends :   UpdateDeleteFunctions  ,
+    props : ['sendData','form'],
     methods : {
-        ...mapActions([
-      'sendQuery'
-    ]),
-        async departmentsCreate() {
-            let formFile = new FormData();
-            formFile.append('props', JSON.stringify(this.form));
-            formFile.append('files', this.form.file);
-            console.log(formFile);
-            // TODO форма отдельно, файлы отдельно
-            this.$store.dispatch('sendQuery', formFile);
+        addData(event) {
+            this.createData({props:JSON.stringify(event.form), file : event.form.file });
         }
-    },
+    }
 }
-
 
 </script>
 

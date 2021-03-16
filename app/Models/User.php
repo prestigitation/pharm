@@ -50,6 +50,14 @@ class User extends Authenticatable
     }
 
     public function roles() {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsToMany(Role::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        Department::creating(function ($user) {
+          $user->roles()->attach(1);
+     });
     }
 }

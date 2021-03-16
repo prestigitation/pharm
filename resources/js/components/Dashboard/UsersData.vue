@@ -1,8 +1,10 @@
 <template>
     <Section>
-        <slot name="section_header"> <span> Информация о пользователе  </span> </slot>
+        <div slot="section_header">
+            <span> Информация о пользователе  </span>
+        </div>
 
-        <slot name="section_content">
+        <div slot="section_content">
             <div>Введите имя пользователя, по которому вы хотите получить информацию: </div>
 
             <b-form-input v-model="username" class="my-2"></b-form-input>
@@ -14,7 +16,7 @@
                 <b-card-text> Адрес электронной почты : {{ userData.email }}</b-card-text>
                 <b-card-text> Дата регистрации : {{ userData.created_at }}</b-card-text>
             </b-card>
-        </slot>
+        </div>
     </Section>
 </template>
 
@@ -30,21 +32,8 @@ import Section from './Section';
         props: ['userData'],
         methods : {
             userGet() {
-                /*axios({
-                    method: 'post',
-                    url: 'data',
-                    data: { username : this.username } ,
-                    })
-                    .then((response) => {
-                        this.userData = response.data.user[0]; // получить пользователя
-                    })
-                    .catch((error) => {
-                        // уведомление
-                        this.$bvToast.toast('Неправильные параметры запроса', { title : 'Пользовательские данные'});
-                    })
-                },*/
                 this.$store.dispatch('sendQuery', {
-                    data: this.username
+                   props: this.username
                 });
         },
         watched: {

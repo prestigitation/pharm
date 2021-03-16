@@ -4,3 +4,7 @@
 
 @import '~bootstrap';
 @import '~bootstrap-vue';
+.section_content {
+    color: blue;
+    background-color: blue;
+}
