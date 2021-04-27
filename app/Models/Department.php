@@ -11,7 +11,7 @@ class Department extends Model
 {
     use HasFactory;
     // поля для массового присваивания
-    protected $fillable = ['city','address','chief','status_id','product_id','department_id','dealer_id'];
+    protected $fillable = ['city','address','chief','status_id','product_id','department_id','dealer_id','quantity'];
 
     public function users() {
         return $this->hasMany('App\User');

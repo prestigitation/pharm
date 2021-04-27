@@ -13,13 +13,10 @@ import DashboardComponent from './DashboardComponent';
 import Section from './Section';
 import UsersData from './UsersData';
 import UsersUpdate from './UsersUpdate';
-import ProductsCreate from './ProductsCreate';
-import DealersCreate from './DealersCreate';
 import DepartmentsProducts from './DepartmentsProducts';
 import ProductsData from './ProductsData';
 import DepartmentsForm from './DepartmentsForm';
 import RolesData from './RolesData';
-import PermissionsData from './PermissionsData';
 
 
 export default {

@@ -37,8 +37,9 @@
 </template>
 
 <script>
-
+import UpdateDeleteFunctions from './UpdateDeleteFunctions.vue';
 export default {
+    extends : UpdateDeleteFunctions,
     data() {
         return {
             form : {
@@ -47,13 +48,8 @@ export default {
         }
     },
     props : ['sendData','city','address','chief'],
-    methods : {
-        emitSubmit() {
-            this.$emit('sendData',{
-                form : this.form
-                }) // эмиттер для передачи в родительский компонент
-            },
-        }
+
+
 }
 </script>
 

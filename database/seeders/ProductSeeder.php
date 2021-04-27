@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
     {
         $products = [ [
             'name'=> 'Ундевит',
-            'category' => 2,
+            'category' => 'Витамины',
             'description' => 'Витаминки',
             'contraindications'=> '',
             'price' => 12

@@ -10,6 +10,11 @@
                     <b-icon-x role="button" variant="danger" title="Удалить" @click="showDeleteModal"></b-icon-x>
                 </template>
             </b-table>
+
+            <b-card role="button" class="text-center lead w-50 mr-auto ml-auto" bg-variant="primary" @click="showCreateModal"> Добавить <b-icon-plus-circle> </b-icon-plus-circle> </b-card>
+            <b-form-input v-model="newCategory" placeholder="Вы можете добавить категорию" class="w-50 m-3 ml-auto mr-auto">  </b-form-input>
+            <b-button type="submit" role="button" class="ml-auto mr-auto d-flex" @click.prevent="addCategory" variant="success"> Отправить </b-button>
+
         </div>
         <b-modal id="edit">
             <div slot="modal-footer"></div>
@@ -20,66 +25,8 @@
 
                 <div slot="section_content">
 
-                <b-form @submit.prevent="update" id="myform">
-
-                    <b-form-file class=""
-                    v-model="form.file"
-                    placeholder="Загрузите изображение товара..."
-                    drop-placeholder="Drop file here..."
-                    accept=".jpg, .png"
-                    required></b-form-file>
-
-                    <b-form-group id="input-group-1" label-for="input-1" class="mt-4">
-                        <b-form-input
-                        v-model="form.name"
-                        placeholder="Введите название медикамента"
-                        required
-                        ></b-form-input>
-                    </b-form-group>
-
-                    <b-form-group id="input-group-2" label="Категория:" label-for="input-2">
-                        <b-form-select
-                        v-model="form.categories"
-                        required
-                        >
-                            <option v-for="category in categories.data" :key='category'>
-                                {{ category.name }}
-                            </option>
-                        </b-form-select>
-                    </b-form-group>
-
-                    <b-form-group id="input-group-3" label="Противопоказания:" label-for="input-3">
-                            <b-form-textarea
-                            id="textarea1"
-                            v-model="form.contraindications"
-                            placeholder="Введите противопоказания (если есть)"
-                            >
-                            </b-form-textarea>
-                    </b-form-group>
-
-                    <b-form-group id="input-group-4" label="Цена:" label-for="input-4">
-                        <b-form-input
-                        v-model="form.price"
-                        placeholder="Введите цену продажи (за 1ед. товара)"
-                        required
-                        >
-                            </b-form-input>
-                    </b-form-group>
-
-                    <b-form-group id="input-group-5" label="Описание:" label-for="input-5">
-                            <b-form-textarea
-                            v-model="form.description"
-                            placeholder="Введите описание медикамента"
-                            required
-                            >
-                            </b-form-textarea>
-                    </b-form-group>
-
-
-                    <div class="text-center">
-                        <b-button type="submit" variant="primary" class="m-2">Отправить</b-button>
-                    </div>
-
+                <b-form id="myform">
+                    <products-form @sendData="handleUpdateEvent"></products-form>
                 </b-form>
             </div>
     </Section>
@@ -95,36 +42,47 @@
                 </div>
             </div>
         </b-modal>
+
+        <b-modal id="create">
+            <div slot="modal-footer"></div>
+            <products-form @sendData="handeAddEvent"></products-form>
+        </b-modal>
     </Section>
 </template>
 
 <script>
+import ProductsForm from './ProductsForm.vue';
 import Section from './Section';
 import UpdateDeleteFunctions from './UpdateDeleteFunctions';
 export default {
+    components : ProductsForm   ,
     extends: UpdateDeleteFunctions,
     data() {
         return {
-            form: {
-                file: this.file,
-            },
-            categories : '',
+            newCategory:'',
             products:'',
             fields : [
-                { key : 'name', label : 'Изображение'},
-                { key : 'category', label : 'Город' },
-                { key : 'description', label : 'Точный адрес'},
-                { key : 'contraindications', label : 'ID ответственного'},
-                { key : 'price', label : 'Создан' },
+                { key : 'name', label : 'Название'},
+                { key : 'category', label : 'Группа' },
+                { key : 'description', label : 'Описание'},
+                { key : 'contraindications', label : 'Противопоказания'},
+                { key : 'price', label : 'Цена' },
                 { key : 'actions', label : 'Действия' }
             ],
+            other : '',
         }
     },
-    props : ['products','categories','description','contraindications'],
+    props : ['form','sendData'],
     async created() {
-        let response = await axios.post('products');
-        this.products = response.data.products;
-        this.categories = await axios.post('categories');
+        let productPromise = await this.getData();
+        this.products = productPromise.data;
+        let categoriesPromise = await axios.get('/api/categories');
+        this.categories = categoriesPromise.data;
+    },
+    methods : {
+        addCategory() {
+           axios.post('/api/categories',{data : this.newCategory})
+        }
     }
 }
 </script>

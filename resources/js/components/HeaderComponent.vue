@@ -5,22 +5,35 @@
     <input type="hidden" name="_token" :value="csrf">
 </form>
   <b-navbar toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="/" class="lead">PharmCrm</b-navbar-brand>
+    <b-navbar-brand href="/" class="lead">Pharm</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item href="#" class='text-center'>Все медикаменты</b-nav-item>
+            <b-nav-item href="#" class='text-center'>
+                <router-link to="/filter">
+                    Все медикаменты
+                </router-link>
+            </b-nav-item>
       </b-navbar-nav>
 
         <b-nav-form class="mr-auto text-center ml-auto">
-          <b-form-input class="m-1" placeholder="Поиск"></b-form-input>
+          <b-form-input class="m-1" placeholder="Поиск" v-model="search"></b-form-input>
           <b-button class="m-1 mr-auto text-center ml-auto" type="submit">Найти</b-button>
         </b-nav-form>
 
       <!-- Right aligned nav items -->
-      <b-navbar-nav>
+      <b-navbar-nav class="text-center m-1">
+          <b-nav-item class="text-center">
+              <router-link to="/cart">
+                <b-iconstack class="mr-4 mt-0 align-middle text-center" >
+                    <b-icon-circle shift-v="4.5" scale="1.3" class="align-middle">
+                    </b-icon-circle>
+                    <b-icon-cart4 scale="0.7" shift-v="4.5" ></b-icon-cart4>
+                </b-iconstack>
+              </router-link>
+        </b-nav-item>
         <b-nav-item-dropdown class='text-center ml-auto mr-auto' right>
           <!-- Using 'button-content' slot -->
           <template #button-content>
@@ -129,6 +142,7 @@
                     email:'',
                     csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     generalError:'',
+                    search : '',
             }
         },
         methods : {

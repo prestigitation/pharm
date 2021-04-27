@@ -10,7 +10,7 @@
                 <b-form-group>
                     <b-form-select v-model="form.department_select">
                         <option v-for="department in departments" :key="department">
-                            {{ department.city + ' ' +  department.address }}
+                          {{ department.id }} . {{ department.city }} {{  department.address }}
                         </option>
                     </b-form-select>
                 </b-form-group>
@@ -72,16 +72,21 @@ export default {
     },
     methods : {
         onSubmit() {
-            axios.post('products',{ props : JSON.stringify(this.form)});
+            axios.post('/api/departments/products',{ props : JSON.stringify(this.form)});
         }
     },
     props : ['departments','products'],
     async mounted() {
-        let info = await axios.post('department_info');
-        this.departments = info.data.departments;
-        this.products = info.data.products;
-        this.dealers = info.data.dealers;
-        this.statuses = info.data.statuses;
+        let departmentsPromise = await axios.get('/api/departments');
+        let productsPromise = await axios.get('/api/products');
+        let dealersPromise = await axios.get('/api/dealers');
+        let statusPromise = await axios.get('/api/statuses');
+
+
+        this.departments = departmentsPromise.data;
+        this.products = productsPromise.data;
+        this.dealers = dealersPromise.data;
+        this.statuses = statusPromise.data;
     },
 }
 </script>

@@ -12,11 +12,22 @@ class Role extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name','permissions'];
+
     public function users() {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany(User::class);
     }
 
     public function permissions() {
-        return $this->hasMany('App\Permission');
+        return $this->belongsToMany(Permission::class);
+    }
+
+    public static function hasPermission(Role $role, Permission $permission) {
+        foreach($role->permissions->toArray() as $perm) {
+            if($perm['name'] == $permission->name) {
+                return true;
+            } else continue;
+        }
+        return false;
     }
 }

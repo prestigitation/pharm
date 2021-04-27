@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 
 use App\Models\Department;
 
 class Product extends Model
 {
     protected $fillable = [
+        'id',
     'name', // mass asignment
     'category',
     'description',
@@ -18,7 +20,8 @@ class Product extends Model
     'status_id',
     'department_id',
     'product_id',
-    'dealer_id'
+    'dealer_id',
+    'quantity'
 ];
     use HasFactory;
 
@@ -27,7 +30,7 @@ class Product extends Model
     }
 
     public function categories() {
-        return $this->hasOne('App\Category');
+        return $this->belongsTo(Category::class);
     }
 
     public function order() {

@@ -44,8 +44,6 @@
 </template>
 
 <script>
-
-import ProductsCreate from './ProductsCreate';
 import UsersData from './UsersData';
 import UsersUpdate from './UsersUpdate';
 import Section from './Section';
@@ -55,11 +53,11 @@ export default {
     data:function() {
         return {
             sections: {
-                departments: [ 'create','data','products'],
-                products : ['create','data'],
-                dealers : ['create','data'],
+                departments: ['data','products'],
+                products : ['data'],
+                dealers : ['data'],
                 roles : ['data'],
-                permissons : ['data'],
+                workers : ['data','panel']
             },
             section:  null,
             action : null,
@@ -86,17 +84,14 @@ export default {
 <style>
 
     .dashboard_content {
-        background: #ec6f66; /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #ec6f66, #f3a183); /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #ec6f66, #f3a183); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ i 7+ */
-
-
-
+        background: #67d187; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #7fb1a0, #3ba349); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #66a0ec, #9df383); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ i 7+ */
     }
 
     .sidebar {
-        height: 100vh;
-        background: rgb(56, 79, 121);
+        height:100vh;
+        background: rgb(19, 21, 56);
         border-right: 3px solid rgb(0, 132, 255);
     }
 

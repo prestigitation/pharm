@@ -24,13 +24,15 @@
                 ></b-form-input>
             </b-form-group>
             <div class="text-center">
-                <b-button type="submit" variant="primary">Отправить</b-button>
+                <b-button type="submit" variant="primary" @click.prevent='emitSubmit'>Отправить</b-button>
             </div>
     </div>
 </template>
 
 <script>
+import UpdateDeleteFunctions from './UpdateDeleteFunctions.vue'
 export default {
+    extends : UpdateDeleteFunctions,
     data() { return {
         form : {
             company : '',
