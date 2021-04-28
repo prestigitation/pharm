@@ -58,7 +58,6 @@
                 aria-controls="my-table"
                 @page-click='selectPage'
                 ></b-pagination>
-                {{ selectedCategories }}
             </div>
         </main>
         </div>
@@ -84,11 +83,28 @@ export default {
     },
     props : ['rows','allProductsPrices'],
     async mounted() {
-        let {data} = await axios.get('/api/products')
-        this.allProducts = data
-        this.products = this.allProducts.slice(this.currentPage-1, this.perPage)
-        let categories = await axios.get('/api/categories')
-        this.categories = categories.data
+        let category = this.$route.query.category // если был задан запрос с index page с параметром категории
+        if(category) {
+            let formData = new FormData()
+            formData.append('filter',JSON.stringify({
+                categories : [category],
+            }))
+            await axios.post('/api/filter',formData,{
+                'Content-Type' : 'application/json'
+            }).then(res=>{
+                this.wasFiltered = true
+                let prods = res.data
+                this.currentPage = 1
+                this.allProducts = prods[0]
+                this.products = this.allProducts.slice(this.currentPage-1, this.perPage)
+            })
+        } else {
+            let {data} = await axios.get('/api/products')
+            this.allProducts = data
+            this.products = this.allProducts.slice(this.currentPage-1, this.perPage)
+            let categories = await axios.get('/api/categories')
+            this.categories = categories.data
+        }
     },
     computed : {
         rows() {

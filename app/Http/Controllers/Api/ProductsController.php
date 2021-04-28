@@ -165,11 +165,11 @@ class ProductsController extends Controller
                 array_push($result,Product::where('category',$category)->get());
             }
         }
-        if($filterData->search != '') {
+        if(isset($filterData->search) && $filterData->search != '') {
             array_push($result,Product::whereRaw("name LIKE CONCAT('%','".$filterData->search."','%')")->get());
             // поиск по подстроке
         }
-        if($filterData->price != '' && gettype($filterData->price)=='integer') {
+        if(isset($filterData->price) && $filterData->price != '' && gettype($filterData->price)=='integer') {
             array_push($result,Product::where('price','<=',$filterData->price)->get());
         }
         return $result;

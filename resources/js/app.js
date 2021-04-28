@@ -65,6 +65,7 @@ Vue.component('Cart', require('./components/Cart.vue').default);
 Vue.component('WorkersData', require('./components/Dashboard/WorkersData.vue').default);
 Vue.component('WorkersPanel', require('./components/Dashboard/WorkersPanel.vue').default);
 Vue.component('Filter', require('./components/Filter.vue').default);
+Vue.component('NewsData', require('./components/Dashboard/NewsData.vue').default);
 
 
 

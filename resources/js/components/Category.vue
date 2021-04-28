@@ -30,9 +30,4 @@ export default {
         background: linear-gradient(to right, #C4E0E5, #62bcca); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         -webkit-text-stroke: 0.7px rgb(34, 60, 148);
     }
-
-    .category_text:hover {
-        border-bottom: 2px solid white;
-        cursor: pointer;
-    }
 </style>

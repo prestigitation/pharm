@@ -28,6 +28,7 @@ Route::namespace('Api')->group(function () {
     Route::apiResource('permissions', 'PermissionsController');
     Route::apiResource('statuses', 'StatusesController');
     Route::apiResource('workers', 'WorkersController');
+    Route::apiResource('news', 'NewsController');
 
     Route::post('/{section}/{id}/file', 'FileController@updateFile');
     Route::post('/departments/products', 'DepartmentsController@productAdd');

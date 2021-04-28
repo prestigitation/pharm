@@ -27,9 +27,11 @@
         </div>
         <div class="categories">
             <category v-for="category in categories" :key="category" class="mx-1 d-flex flex-row justify-content-center">
-                <div slot="text">
-                    {{ category.name }}
-                </div>
+                    <div slot="text">
+                        <router-link :to="'/filter?category='+category.name">
+                        {{ category.name }}
+                        </router-link>
+                    </div>
             </category>
         </div>
         <div class="text-center m-3 lead"> Новости </div>

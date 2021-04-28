@@ -57,7 +57,8 @@ export default {
                 products : ['data'],
                 dealers : ['data'],
                 roles : ['data'],
-                workers : ['data','panel']
+                workers : ['data','panel'],
+                news : ['data'],
             },
             section:  null,
             action : null,
