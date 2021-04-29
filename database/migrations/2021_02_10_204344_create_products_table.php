@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->foreign('category')->references('name')->on('categories');
             $table->text('description');
             $table->text('contraindications')->nullable();
-            $table->integer('price');
+            $table->float('price');
             $table->timestamps();
         });
     }

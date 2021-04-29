@@ -39,6 +39,7 @@ import Category from './components/Category.vue'
 import ProductPage from './components/ProductPage.vue'
 import Cart from './components/Cart.vue'
 import Filter from './components/Filter.vue'
+import NewsPage from './components/NewsPage.vue'
 
 
 window.Vue = require('vue').default;
@@ -65,7 +66,10 @@ Vue.component('Cart', require('./components/Cart.vue').default);
 Vue.component('WorkersData', require('./components/Dashboard/WorkersData.vue').default);
 Vue.component('WorkersPanel', require('./components/Dashboard/WorkersPanel.vue').default);
 Vue.component('Filter', require('./components/Filter.vue').default);
+Vue.component('News', require('./components/News.vue').default);
 Vue.component('NewsData', require('./components/Dashboard/NewsData.vue').default);
+Vue.component('NewsForm', require('./components/Dashboard/NewsForm.vue').default);
+Vue.component('NewsPage', require('./components/NewsPage.vue').default);
 
 
 
@@ -165,6 +169,11 @@ window.onload = function() {
             path: '/',
             component: Index,
             name: 'index',
+        },
+        {
+            path: '/news/:id',
+            component: NewsPage,
+            name: 'news',
         },
         {
             path: '/products/:id',

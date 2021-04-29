@@ -1,45 +1,52 @@
 <template>
   <div>
-      <span> Вы можете добавить новость : </span>
-      <b-form @submit.prevent="addNews">
-          <b-form-input
-          class="my-2"
-          type="text"
-          v-model="title"
-          placeholder="Заголовок новости"
-          ></b-form-input>
-          <b-form-textarea class="my-2" v-model="content"></b-form-textarea>
-          <b-form-file v-model="file" placeholder="Прикрепите скриншот"></b-form-file>
-          <b-button type="submit" class="d-flex w-50 justify-content-center mr-auto ml-auto mt-2" variant="success"> Отправить </b-button>
-      </b-form>
+      <div>
+          <b-table :items="allNews" :fields="fields" table-variant="info" class="text-center" @row-hovered="getLine">
+                <template #cell(actions)>
+                    <b-icon-pencil-square role="button" variant="success" title="Редактировать" @click="showEditModal"></b-icon-pencil-square>
+                    <b-icon-x role="button" variant="danger" title="Удалить" @click="showDeleteModal"></b-icon-x>
+                </template>
+            </b-table>
+            <b-card role="button" class="text-center lead w-50 mr-auto ml-auto" bg-variant="info"  @click="showCreateModal"> Добавить <b-icon-plus-circle> </b-icon-plus-circle> </b-card>
+      </div>
+      <b-modal id="create" hide-footer>
+          <span> Вы можете добавить новость : </span>
+          <news-form @sendData="handeAddEvent"></news-form>
+      </b-modal>
+      <b-modal id="edit" hide-footer>
+          <news-form @sendData="handleUpdateEvent"></news-form>
+      </b-modal>
+      <b-modal id="delete" hide-footer>
+          <span> Вы действительно хотите удалить запись?</span>
+          <b-button variant='danger' class="w-25 mr-auto ml-auto m-2" @click.prevent='deleteData'> Удалить </b-button>
+      </b-modal>
   </div>
 </template>
 
 <script>
+import NewsForm from './NewsForm.vue';
+import UpdateDeleteFunctions from './UpdateDeleteFunctions';
 export default {
+    components : NewsForm,
+    extends : UpdateDeleteFunctions,
     data() {
         return {
-            file: File,
-            title: '',
-            content: '',
+            allNews : '',
+            fields : [
+                    { key : 'id', label : 'ID новости'},
+                    { key : 'title', label : 'Заголовок'},
+                    { key : 'content', label : 'Содержание'},
+                    { key: 'created_at',label: 'Добавлено'},
+                    { key: 'actions',label: 'Действия'},
+                ],
+            other : '',
         }
     },
-    methods: {
-        async addNews() {
-            let formData = new FormData()
-            formData.append('file',this.file)
-            formData.append('title',this.title)
-            formData.append('content',this.content)
-            await axios.post('/api/news',formData, {
-                "Content-Type" : 'application/x-www-form-urlencoded'
-            }).then(result => this.$bvToast.show('Новость успешно добавлена',{
-                title: 'Добавление новости',
-                variant: "success"
-            })).catch(result => this.$bvToast.show('Новость не была отправлена. Проверьте параметры запроса',{
-                title: 'Добавление новости',
-                variant: "danger"
-            }))
-        }
+    props : ['sendData'],
+    async mounted() {
+        await axios.get('/api/news').then(result => {
+            this.allNews = result.data
+        })
     }
 }
 </script>

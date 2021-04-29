@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Models\News;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -14,7 +16,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+        return News::all();
     }
 
     /**
@@ -25,7 +27,15 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        $this->formProps = json_decode($request->props);
+            News::create([
+                'title' => $this->formProps->title,
+                'content' => $this->formProps->content
+            ]);
+            if($request->hasFile('file')) {
+                Storage::putFileAs('./public/img/news/',$request->file('file'),(string) News::count().'.jpeg');
+            }
+
     }
 
     /**
@@ -36,7 +46,7 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        //
+        return News::findOrFail($id);
     }
 
     /**
@@ -48,7 +58,16 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->formProps = json_decode($request->props);
+        $news = News::findOrFail($id); // id запрашиваемой статьи
+        $news->update([ // если определенные параметры заданы
+            'title' =>  $this->formProps->title ?? $news->title,
+            'content'=> $this->formProps->content ?? $news->content
+        ]);
+        if($request->hasFile('file')) {
+            $fileController = new FileController();
+            $fileController->updateFile($request,'products',$id);
+        }
     }
 
     /**
@@ -59,6 +78,7 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $news = News::findOrFail($id);
+        $news->delete();
     }
 }
