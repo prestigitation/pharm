@@ -174,4 +174,13 @@ class ProductsController extends Controller
         }
         return $result;
     }
+    public function makeOrder(Request $request, $id) {
+        $prod = Product::findOrFail($id);
+        Order::create([
+            'user_id' => $request->user_id,
+            'product_id' => $id,
+            'quantity' => 1,
+            'buy_price' => $prod->price
+        ]);
+    }
 }

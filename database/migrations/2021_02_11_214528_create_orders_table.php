@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
             $table->bigInteger('quantity');
-            $table->bigInteger('buy_price');
+            $table->float('buy_price');
             $table->timestamps();
         });
     }

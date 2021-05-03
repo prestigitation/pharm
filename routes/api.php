@@ -43,7 +43,8 @@ Route::namespace('Api')->group(function () {
     Route::get('/roles/{id}/permissions', 'RolesController@permissionsGet');
     Route::delete('/roles/{name}/permissions', 'RolesController@permissionsDetach');
     Route::delete('/users/{id}/roles', 'UsersController@rolesDetach');
+    Route::post('/users/{id}', 'UsersController@changeUserData');
     Route::post('/filter','ProductsController@filter');
-
+    Route::post('products/{id}/buy', 'ProductsController@makeOrder');
 
 });

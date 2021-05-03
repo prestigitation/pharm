@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Permission;
 use App\Models\Role;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -51,7 +53,27 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $props = json_decode($request->props);
+        $user = User::findOrFail($id);
+
+        if(!Hash::check($props->previousPassword, $user->password)) { // если пользователь ввел неправильный текущий пароль
+            abort(403);
+        }
+        if($props->editedName!= '') {
+            $user->name = $props->editedName;
+        }
+        if($props->editedEmail!= '') {
+            $user->email = $props->editedEmail;
+        }
+        if($props->editedPassword!= '') {
+            $user->password = $props->editedPassword;
+        }
+        $user->save();
+
+        if($request->hasFile('file')) {
+            Storage::putFileAs('./public/img/avatars/',$request->file('file'),(string) $id.'.jpeg');
+        }
+
     }
 
     /**
@@ -93,5 +115,9 @@ class UsersController extends Controller
         return $result[0];
         // получить все роли, записать в результирующий массив права каждой роли,
         // при этом проверить есть ли уже в массиве определенная роль
+    }
+
+    public function changeUserData(Request $request) {
+        dd('kek');
     }
 }

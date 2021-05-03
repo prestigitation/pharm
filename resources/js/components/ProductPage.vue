@@ -23,7 +23,7 @@
                   </strong>
                 </div>
                 <div class="mt-2">
-                    <b-button variant="success"> Купить </b-button>
+                    <b-button variant="success" @click.prevent='buy'> Купить </b-button>
                     <b-button variant="warning"> Добавить в корзину </b-button>
                 </div>
             </div>
@@ -84,7 +84,19 @@ export default {
     methods : {
         showComponent(component) {
             this.selectedComponent = component
+        },
+        async buy() {
+            if(this.$store.getters.getAuthUser) {
+                await axios.post('/api/products/'+this.$route.params.id + '/buy',{
+                    user_id : this.$store.getters.getAuthUser.userId,
+                })
+            } else {
+                this.$bvToast.show('Для покупки товаров войдите в систему', {
+                    title: 'Покупка товара',
+                })
+            }
         }
+
     }
 }
 </script>

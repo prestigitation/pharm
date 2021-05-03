@@ -18,7 +18,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import PortalVue from 'portal-vue';
 import Notifications from 'vue-notification';
-import UserProfile from './components/UserProfile.vue';
 import HeaderComponent from './components/HeaderComponent.vue';
 import DashboardUsers from './components/Dashboard/DashboardUsers.vue';
 import Section from './components/Dashboard/Section.vue';
@@ -40,6 +39,7 @@ import ProductPage from './components/ProductPage.vue'
 import Cart from './components/Cart.vue'
 import Filter from './components/Filter.vue'
 import NewsPage from './components/NewsPage.vue'
+import UserMainInfo from './components/UserMainInfo.vue'
 
 
 window.Vue = require('vue').default;
@@ -70,7 +70,7 @@ Vue.component('News', require('./components/News.vue').default);
 Vue.component('NewsData', require('./components/Dashboard/NewsData.vue').default);
 Vue.component('NewsForm', require('./components/Dashboard/NewsForm.vue').default);
 Vue.component('NewsPage', require('./components/NewsPage.vue').default);
-
+Vue.component('UserMainInfo', require('./components/UserMainInfo.vue').default);
 
 
 Vue.use(PortalVue);
@@ -192,10 +192,11 @@ window.onload = function() {
         },
         {
             path: '/users/:id',
-            component: UserProfile,
+            component: UserMainInfo,
             name: 'user_profile',
             beforeEnter: (to, from, next) => {
-                if (store.state['auth'] == true) {
+                let { userId } = store.getters.getAuthUser
+                if (store.state['auth'] == true && userId == to.params.id) {
                     next()
                 } else {
                     next(false)
