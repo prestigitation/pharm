@@ -12,28 +12,12 @@
         </b-form-select>
         </b-form-group>
         <b-form-group>
-            <b-form-input type="text" v-model="quantity" placeholder="Введите количество товара"></b-form-input>
-                <div class="text-center">
-                    <b-icon-plus-circle
-                    variant="success"
-                    role="button"
-                    scale="1.5"
-                    class="mx-2 mt-3"
-                    @click="increment()"
-                    ></b-icon-plus-circle>
-
-                    <b-icon-file-minus
-                    variant="danger"
-                    role="button"
-                    scale="1.5"
-                    class="mx-2 mt-3"
-                    @click="decrement()"
-                    ></b-icon-file-minus>
+                    <quantity-selector @quantityChange='setQuantity'></quantity-selector>
                     <b-button type="submit"
                     variant="success"
                     @click="addProduct"
                     > Прикрепить к заказу </b-button>
-                </div>
+
         </b-form-group>
       </div>
 
@@ -76,7 +60,9 @@
 </template>
 
 <script>
+import QuantitySelector from '../QuantitySelector.vue'
 export default {
+  components: { QuantitySelector },
     data() {
         return {
             productSearch : '',
@@ -101,15 +87,8 @@ export default {
             })
             this.products = a.data
         },
-        increment() {
-            if(this.quantity=='') {
-                this.quantity = 1
-            } else this.quantity++
-        },
-        decrement() {
-            if(this.quantity==1) {
-                this.quantity = ''
-            } else if(this.quantity>1) this.quantity--
+        setQuantity(quantity) {
+            this.quantity = quantity
         },
         addProduct() {
             let orders = this.orderList

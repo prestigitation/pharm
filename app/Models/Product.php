@@ -26,7 +26,7 @@ class Product extends Model
     use HasFactory;
 
     public function departments() {
-        return $this->belongsToMany(Department::class,'department_product');
+        return $this->belongsToMany(Department::class,'department_product')->withPivot('quantity');;
     }
 
     public function categories() {

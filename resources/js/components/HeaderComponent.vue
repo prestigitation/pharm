@@ -20,7 +20,7 @@
 
         <b-nav-form class="mr-auto text-center ml-auto">
           <b-form-input class="m-1" placeholder="Поиск" v-model="search"></b-form-input>
-          <b-button class="m-1 mr-auto text-center ml-auto" type="submit">Найти</b-button>
+          <b-button class="m-1 mr-auto text-center ml-auto" @click.prevent='searchData' type="submit">Найти</b-button>
         </b-nav-form>
 
       <!-- Right aligned nav items -->
@@ -175,9 +175,9 @@
                     method: 'post',
                     url: 'auth/register',
                     data:{ login:this.login,password:this.password, email :this.email },
-                    }).catch(function() {
+                    })/*.catch(function() {
                         window.location.reload();
-                    })
+                    })*/
                     .then( (response) => {
                         console.log(response);
                         this.$store.commit('authentificate',{ userId : response.data.user.id });
@@ -187,6 +187,9 @@
                         window.location.reload();
                     });
                 },
+                searchData() {
+                    this.$router.push({name : 'filter',params: {name : this.search}})
+                }
         },
 
         computed : {

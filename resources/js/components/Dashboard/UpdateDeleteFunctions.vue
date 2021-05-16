@@ -92,6 +92,18 @@ export default {
         },
         handleUpdateEvent(event) {
             this.updateData({props : event.form,file:event.form.file});
+        },
+        addItemToCart(id,quantity) {
+            try {
+                this.$store.dispatch('addToCart',{id,quantity})
+                this.$bvToast.show('Товар был добавлен в корзину!',{
+                    variant : 'primary'
+                })
+            } catch (error) {
+                this.$bvToast.show('Не удалось добавить предмет в корзину. Возможно, он уже был добавлен',{
+                    variant : 'danger'
+                })
+            }
         }
     }
 }

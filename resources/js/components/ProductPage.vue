@@ -23,15 +23,16 @@
                   </strong>
                 </div>
                 <div class="mt-2">
+                    <quantity-selector @quantityChange='setQuantity'></quantity-selector>
                     <b-button variant="success" @click.prevent='buy'> Купить </b-button>
-                    <b-button variant="warning"> Добавить в корзину </b-button>
+                    <b-button variant="warning" @click.prevent='addToCart(product.id,quantity)'> Добавить в корзину </b-button>
                 </div>
             </div>
           </div>
           <div class="product_page_bar mt-5 d-flex flex-row align-items-center justify-content-start">
-            <div class="product_page_sections" @click="showComponent('product-review')"> Отзывы </div>
-            <div class="product_page_sections" @click="showComponent('product-description')"> Описание </div>
-            <div class="product_page_sections" @click="showComponent('product-avaliable')"> Наличие в магазинах </div>
+            <div role="button" class="product_page_sections" @click="showComponent('product-review')"> Отзывы </div>
+            <div role="button" class="product_page_sections" @click="showComponent('product-description')"> Описание </div>
+            <div role="button" class="product_page_sections" @click="showComponent('product-avaliable')"> Наличие в магазинах </div>
         </div>
         <div>
             <component :is="selectedComponent"></component>
@@ -42,9 +43,8 @@
 
 <script>
 import Vue from 'vue'
-Vue.component('product-review', {
-    template : '<span> Отзывы</span>'
-})
+import QuantitySelector from './QuantitySelector.vue'
+import UpdateDeleteFunctions from './Dashboard/UpdateDeleteFunctions.vue'
 Vue.component('product-description', {
     data() {
         return {
@@ -66,14 +66,25 @@ Vue.component('product-avaliable', {
     async mounted() {
         let {data} = await axios.get('/api/products/' + this.$parent.product.id + '/departments')
         this.stocks = data
+        console.log(data)
     },
-    template : "<div> <div> Наличие в аптеках: </div> <div v-for='stock in stocks' :key='stock'> {{ stock }}</div></div>"
+    template : `
+    <div class="d-flex align-items-center flex-column ml-auto mr-auto mt-2">
+        <div> Наличие в аптеках: </div>
+        <div class='p-2 m-2' v-for='stock in stocks' :key='stock'>
+            <img :src="'/storage/img/departments/' + stock.id +'.jpeg'" width='50' height='50'>
+            <span>{{ stock.city }} {{ stock.address }}</span>
+        </div>
+    </div>`
 })
 export default {
+  components: { QuantitySelector },
+  extends : UpdateDeleteFunctions,
     data() {
       return {
         product : '',
         selectedComponent: null,
+        quantity: '',
       }
     },
     async mounted() {
@@ -89,14 +100,22 @@ export default {
             if(this.$store.getters.getAuthUser) {
                 await axios.post('/api/products/'+this.$route.params.id + '/buy',{
                     user_id : this.$store.getters.getAuthUser.userId,
+                    'quantity' : this.quantity
                 })
             } else {
                 this.$bvToast.show('Для покупки товаров войдите в систему', {
                     title: 'Покупка товара',
                 })
             }
+        },
+        setQuantity(quantity) {
+            this.quantity = quantity
+        },
+        addToCart(id,quantity) {
+            if(quantity == '')
+            quantity = 1
+            addItemToCart(product.id,quantity)
         }
-
     }
 }
 </script>

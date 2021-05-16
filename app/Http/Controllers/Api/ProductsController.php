@@ -118,11 +118,7 @@ class ProductsController extends Controller
         $product = Product::find($id);
         $departments = DB::table('department_product')->where('product_id',$id)->get('department_id')->unique('department_id')->toArray();
         foreach($departments as $department) {
-           $resultArray->push(Department::where('id',$department->department_id)
-           ->first()
-           ->city.' '.Department::where('id',$department->department_id)
-           ->first()
-           ->address);
+           $resultArray->push(Department::where('id',$department->department_id)->first());
         }
         return $resultArray;
     }
@@ -160,7 +156,7 @@ class ProductsController extends Controller
     public function filter(Request $request) {
         $filterData = json_decode($request->filter);
         $result = [];
-        if(count($filterData->categories) > 0) {
+        if(isset($filterData->categories) && count($filterData->categories) > 0) {
             foreach($filterData->categories as $category) {
                 array_push($result,Product::where('category',$category)->get());
             }
@@ -176,11 +172,19 @@ class ProductsController extends Controller
     }
     public function makeOrder(Request $request, $id) {
         $prod = Product::findOrFail($id);
+        if($request->quantity != '') {
+            $quantity = $request->quantity;
+        } else {
+            $quantity = 1;
+        }
         Order::create([
             'user_id' => $request->user_id,
             'product_id' => $id,
-            'quantity' => 1,
+            'quantity' => $quantity,
             'buy_price' => $prod->price
+        ]);
+        $prod->departments()->updateExistingPivot($prod->id,[
+            'quantity' => $prod->departments->first()->pivot->quantity - $quantity
         ]);
     }
 }

@@ -43,7 +43,7 @@ import UserMainInfo from './components/UserMainInfo.vue'
 
 
 window.Vue = require('vue').default;
-
+const d3 = require('d3')
 
 Vue.component('ProductsForm', require('./components/Dashboard/ProductsForm.vue').default);
 Vue.component('header-component', require('./components/HeaderComponent.vue').default);
@@ -71,7 +71,9 @@ Vue.component('NewsData', require('./components/Dashboard/NewsData.vue').default
 Vue.component('NewsForm', require('./components/Dashboard/NewsForm.vue').default);
 Vue.component('NewsPage', require('./components/NewsPage.vue').default);
 Vue.component('UserMainInfo', require('./components/UserMainInfo.vue').default);
-
+Vue.component('QuantitySelector', require('./components/QuantitySelector.vue').default);
+Vue.component('ProductReview', require('./components/ProductReview.vue').default);
+Vue.component('Comment', require('./components/Comment.vue').default);
 
 Vue.use(PortalVue);
 Vue.use(BootstrapVue);
@@ -116,42 +118,50 @@ window.onload = function() {
         },
         actions: {
             async permissionsGet(state) {
-                let { data } = await axios.get('/api/users/' + this.state.user_id + '/permissions');
+                let { data } = await axios.get('/api/users/' + this.state.user_id.userId + '/permissions');
                 store.commit('permissionsAll', data);
             },
-            async addToCart(state, id) { // добавление нового товара в корзину, при этом без повторений
+            async addToCart(state, product) { // добавление нового товара в корзину, при этом без повторений
+                let successMessage = () => new Vue().$bvToast.toast('Товар успешно добавлен в корзину!', {
+                    variant: 'success',
+                    title: 'Корзина'
+                })
+                let failMessage = () => new Vue().$bvToast.toast('Товар не был добавлен в корзину. Возможно, он уже был добавлен', {
+                    variant: 'danger',
+                    title: 'Корзина'
+                })
                 let cart = store.getters.getCart
+                console.log(typeof cart)
                 let newArray = new Array();
                 if (typeof cart == 'undefined') {
-                    store.commit('newCartItem', newCart.push(id))
+                    newArray.push({ id: product.id, quantity: product.quantity })
+                    store.commit('newCartItem', newArray)
+                    successMessage()
                 } else if (typeof cart == 'number') {
-                    if (cart != id) {
-                        newArray.push(cart, id)
+                    if (cart != product.id) {
+                        newArray.push(cart, { id: product.id, quantity: product.quantity })
                         store.commit('newCartItem', newArray)
+                        successMessage()
                     }
                 } else if (typeof cart == 'object') {
                     let result = true;
                     cart.forEach((item) => {
-                        if (item == id) {
+                        if (item.id == product.id) {
                             result = false
+                            failMessage()
+                            return
                         }
                     })
                     if (result == true) {
-                        newArray.push(...cart, id)
+                        newArray.push(...cart, { id: product.id, quantity: product.quantity })
                         store.commit('newCartItem', newArray)
+                        successMessage()
                     }
                 }
-                new Vue().$bvToast.toast('Товар успешно добавлен в корзину!', {
-                    variant: 'success',
-                    title: 'Корзина'
-                })
             },
             deleteCartItem(state, id) {
                 let cart = store.getters.getCart
-                let searchingElement = cart.indexOf(id)
-                if (searchingElement != -1) {
-                    cart.splice(searchingElement, 1)
-                }
+                cart.splice(id, 1)
                 store.commit('removeCartItem', cart)
             }
         },

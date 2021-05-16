@@ -23,10 +23,10 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-content: center;
-        margin-top: 20px;
-        margin: 20px;
-        width: 250px;
-        height: 350px;
+        /*margin-top: 15px;*/
+        margin: 15px;
+        width: 225px;
+        height: 300px;
         border: 1px solid black;
     }
 

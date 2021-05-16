@@ -29,9 +29,13 @@ Route::namespace('Api')->group(function () {
     Route::apiResource('statuses', 'StatusesController');
     Route::apiResource('workers', 'WorkersController');
     Route::apiResource('news', 'NewsController');
+    Route::apiResource('comments', 'CommentsController');
+    Route::apiResource('orders','OrderController');
 
+    Route::get('/sales','OrderController@getSales');
     Route::post('/{section}/{id}/file', 'FileController@updateFile');
     Route::post('/departments/products', 'DepartmentsController@productAdd');
+    Route::get('/departments/profit', 'DepartmentsController@getProfit');
     Route::post('/roles/{id}/permissions', 'RolesController@permissionsAttach');
     Route::post('/users/{id}/roles', 'UsersController@rolesAttach');
     Route::get('/users/{id}/permissions','UsersController@permissionsGet');

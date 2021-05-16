@@ -15,7 +15,7 @@
                </div>
                <div slot="price" class="text-center">
                    {{ product.price }}руб.
-                    <b-button variant="warning" size="sm" @click="$store.dispatch('addToCart',index+1)">
+                    <b-button variant="warning" size="sm" @click="addItemToCart(product.id,1)">
                         🛒
                     </b-button>
                </div>
@@ -27,16 +27,14 @@
         </div>
         <div class="categories">
             <category v-for="category in categories" :key="category" class="mx-1 d-flex flex-row justify-content-center">
-                    <div slot="text">
-                        <router-link :to="'/filter?category='+category.name">
+                    <div role="button" slot="text" @click.prevent='searchByCategory(category.name)'>
                             {{ category.name }}
-                        </router-link>
                     </div>
             </category>
         </div>
         <div class="text-center m-3 lead"> Новости </div>
         <div class="news">
-            <news class="mr-auto ml-auto" v-for="article in news" :key='article.id' :link="'/news/'+article.id">
+            <news v-for="article in news" :key='article.id' :link="'/news/'+article.id">
                 <div slot="img">
                     <img class="news_img" :src="'/storage/img/news/'+ article.id + '.jpeg'">
                 </div>
@@ -53,8 +51,10 @@ import Category from './Category.vue'
 import HeaderComponent from './HeaderComponent.vue'
 import Product from './Product.vue'
 import News from './News.vue'
+import UpdateDeleteFunctions from './Dashboard/UpdateDeleteFunctions.vue'
 export default {
   components: { Category },
+  extends : UpdateDeleteFunctions,
     data() {
         return {
             products : '',
@@ -70,8 +70,11 @@ export default {
         let news = await axios.get('/api/news')
         let newsData = news.data
         this.news = newsData.slice(newsData.length-7,newsData.length)
-
-
+    },
+    methods: {
+        searchByCategory(name) {
+            this.$router.push({name : 'filter',params : {category : name}})
+        }
     }
 }
 </script>
@@ -96,8 +99,10 @@ export default {
     }
     .news {
         display: flex;
-        justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin : 5px;
     }
     .news>div {
         flex-grow: 1;

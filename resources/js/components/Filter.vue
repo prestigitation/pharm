@@ -83,13 +83,24 @@ export default {
     },
     props : ['rows','allProductsPrices'],
     async mounted() {
-        let category = this.$route.query.category // если был задан запрос с index page с параметром категории
-        if(category) {
-            let formData = new FormData()
+        let category = this.$route.params.category // если был задан запрос с index page с параметром категории
+        let name = this.$route.params.name
+        let formData = new FormData()
+        if(category && !name) {
             formData.append('filter',JSON.stringify({
                 categories : [category],
             }))
-            await axios.post('/api/filter',formData,{
+        } else if(name && !category) {
+            formData.append('filter',JSON.stringify({search : name}))
+        } else {
+            let {data} = await axios.get('/api/products')
+            this.allProducts = data
+            this.products = this.allProducts.slice(this.currentPage-1, this.perPage)
+            let categories = await axios.get('/api/categories')
+            this.categories = categories.data
+            return
+        }
+        await axios.post('/api/filter',formData,{
                 'Content-Type' : 'application/json'
             }).then(res=>{
                 this.wasFiltered = true
@@ -98,13 +109,7 @@ export default {
                 this.allProducts = prods[0]
                 this.products = this.allProducts.slice(this.currentPage-1, this.perPage)
             })
-        } else {
-            let {data} = await axios.get('/api/products')
-            this.allProducts = data
-            this.products = this.allProducts.slice(this.currentPage-1, this.perPage)
-            let categories = await axios.get('/api/categories')
-            this.categories = categories.data
-        }
+
     },
     computed : {
         rows() {

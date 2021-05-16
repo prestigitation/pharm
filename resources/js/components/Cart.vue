@@ -4,19 +4,24 @@
         <div class="d-flex flex-column align-items-center text-center">
             <div v-if="products.length>0">
                 <div class="lead mx-2 my-2"> Ваша корзина </div>
-                <div class="cart_template" v-for="product in products" :key="product.name">
+                <div class="cart_template" v-for="product,index in products" :key="product.name">
                     <div class="cart_product_img">
                         <img width="50" height="50" :src="'/storage/img/products/' + product.id + '.jpeg'">
                     </div>
-                    <div class="cart_product_content">
-                        {{ product.name }}
+                    <div class="cart_product_content mx-3 lead">
+                        <a :href="'/products/' + product.id">
+                            {{ product.name }}
+                        </a>
+                    </div>
+                    <div class="mx-3">
+                        {{ product.price }} руб.
                     </div>
                     <b-icon-x-circle
                     variant="danger"
                     class="justify-content-end"
                     id="cart_delete"
                     role="button"
-                    @click.prevent="deleteItem(product.id)"
+                    @click.prevent="deleteItem(index)"
                     ></b-icon-x-circle>
                 </div>
             </div>
@@ -42,15 +47,18 @@ export default {
             this.$store.dispatch('deleteCartItem',id)
         }
     },
-    props:['productsId','products'],
+    props:['productsId'],
     async mounted() {
         let productsId = this.$store.getters.getCart
         let productArray = new Array()
-        productsId.forEach(async (item) => {
-            let response = await axios.get('/api/products/' + item)
+        if(typeof productsId != 'undefined') {
+            productsId.forEach(async (item) => {
+            let response = await axios.get('/api/products/' + item.id)
             productArray.push(response.data)
         })
         this.products = productArray
+        }
+
     }
 }
 </script>
