@@ -3,14 +3,7 @@
       <div class="lead"> Панель работника </div>
       <div class="order">
         <div> Оформить заказ : </div>
-        <b-form-group>
-            <b-form-input @change="findProduct" v-model="productSearch" type="text" placeholder="Введите название товара"></b-form-input>
-            <b-form-select v-model="productSelect">
-            <option v-for="(product,index) in products" :key="product" @change="calculatePrice(index)">
-                {{ product.name }}
-            </option>
-        </b-form-select>
-        </b-form-group>
+        <products-search></products-search>
         <b-form-group>
                     <quantity-selector @quantityChange='setQuantity'></quantity-selector>
                     <b-button type="submit"
@@ -61,13 +54,12 @@
 
 <script>
 import QuantitySelector from '../QuantitySelector.vue'
+import ProductsSearch from './ProductsSearch.vue'
 export default {
-  components: { QuantitySelector },
+  components: { QuantitySelector, ProductsSearch },
     data() {
         return {
-            productSearch : '',
             products : '',
-            productSelect : '',
             productPrice : '',
             quantity : '',
             orderList: new Array,
@@ -81,12 +73,6 @@ export default {
         this.productsData = data
     },
     methods : {
-        async findProduct() {
-            let a = await axios.post('/api/products/search',{
-                query : this.productSearch
-            })
-            this.products = a.data
-        },
         setQuantity(quantity) {
             this.quantity = quantity
         },
@@ -133,7 +119,7 @@ export default {
         cashBack : function() {
             return this.recievedMoney - this.orderCost
         }
-    }
+    },
 }
 </script>
 

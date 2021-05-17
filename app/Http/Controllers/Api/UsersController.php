@@ -116,8 +116,4 @@ class UsersController extends Controller
         // получить все роли, записать в результирующий массив права каждой роли,
         // при этом проверить есть ли уже в массиве определенная роль
     }
-
-    public function changeUserData(Request $request) {
-        dd('kek');
-    }
 }

@@ -29,8 +29,8 @@ class NewsSeeder extends Seeder
     ];
     foreach($news as $article) {
         \App\Models\News::create([
-            'title'=> $article['name'],
-            'content' => $article['category'],
+            'title'=> $article['title'],
+            'content' => $article['content'],
         ]);
     }
     }

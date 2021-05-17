@@ -14,7 +14,15 @@
                         </a>
                     </div>
                     <div class="mx-3">
-                        {{ product.price }} руб.
+                        <span v-if="product.discount_price==0">
+                            {{ product.price }} руб.
+                        </span>
+                        <span v-else>
+                            <s class="text-danger">
+                                {{ product.price }}
+                            </s>
+                            <span>{{  product.discount_price  }}руб.</span>
+                        </span>
                     </div>
                     <b-icon-x-circle
                     variant="danger"

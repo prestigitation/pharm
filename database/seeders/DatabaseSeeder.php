@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             StatusSeeder::class,
             DealerSeeder::class,
             NewsSeeder::class,
-            OrderSeeder::class
+            //OrderSeeder::class
         ]);
 
     }

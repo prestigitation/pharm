@@ -15,6 +15,12 @@
             <b-form-input v-model="newCategory" placeholder="Вы можете добавить категорию" class="w-50 m-3 ml-auto mr-auto">  </b-form-input>
             <b-button type="submit" role="button" class="ml-auto mr-auto d-flex" @click.prevent="addCategory" variant="success"> Отправить </b-button>
 
+            <div>
+                <span> Вы можете добавить скидку на товар :  </span>
+                <products-search v-model="selectedProd" ref="discountProduct"></products-search>
+                <b-form-input v-model="discountPrice" placeholder="Введите сумму со скидкой"></b-form-input>
+                <b-button variant="primary" @click.prevent="appendDiscount" class="w-25 ml-auto mr-auto d-flex justify-content-center">Добавить</b-button>
+            </div>
         </div>
         <b-modal id="edit">
             <div slot="modal-footer"></div>
@@ -52,9 +58,11 @@
 
 <script>
 import ProductsForm from './ProductsForm.vue';
+import ProductsSearch from './ProductsSearch.vue';
 import Section from './Section';
 import UpdateDeleteFunctions from './UpdateDeleteFunctions';
 export default {
+  components: { ProductsSearch },
     components : ProductsForm   ,
     extends: UpdateDeleteFunctions,
     data() {
@@ -70,6 +78,8 @@ export default {
                 { key : 'actions', label : 'Действия' }
             ],
             other : '',
+            selectedProd : '',
+            discountPrice:'',
         }
     },
     props : ['form','sendData'],
@@ -82,6 +92,11 @@ export default {
     methods : {
         addCategory() {
            axios.post('/api/categories',{data : this.newCategory})
+        },
+        async appendDiscount() {
+            await axios.post('/api/products/' + this.$refs.discountProduct.$data.productId + '/discount',{
+                discountPrice : this.discountPrice
+            })
         }
     }
 }

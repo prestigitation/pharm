@@ -47,13 +47,14 @@ class ProductsController extends Controller
             'contraindications_textarea' => 'nullable',
         ]);
         $categories = Category::with('name');
+        $price = $this->formProps->price;
             $product = Product::create([
                 'name' => $this->formProps->name,
                 'category' => Category::where('name', $this->formProps->categories)->first()->name,
                 'description' => $this->formProps->description,
                 'contraindications' => $this->formProps->contraindications ?? null,
-                'price' => $this->formProps->price,
-                'discount_price' => null
+                'price' => $price,
+                'discount_price' => $price
             ]);
             if($request->hasFile('file')) {
                 Storage::putFileAs('./public/img/products/',$request->file('file'),(string) Product::count().'.jpeg');
@@ -88,12 +89,15 @@ class ProductsController extends Controller
             $categoryName = Category::where('name',$this->formProps->categories)->first()->name;
         }
          else $categoryName = $product->category;
+         $price = $this->formProps->price ?? $product->price;
         $product->update([ // если определенные параметры заданы
             'category' =>  $categoryName,
             'contraindications'=> $this->formProps->contraindications ?? $product->contraindications,
             'description' => $this->formProps->description ?? $product->description,
             'name' => $this->formProps->name ?? $product->name,
-            'price' => $this->formProps->price ?? $product->price
+            'price' => $price,
+            'discount_price' => $this->formProps->discount ?: $price // если в форму была занесена скидка
+
         ]);
         if($request->hasFile('file')) {
             $fileController = new FileController();
@@ -115,7 +119,6 @@ class ProductsController extends Controller
 
     public function getDepartments(Request $request, $id) {
         $resultArray = new Collection();
-        $product = Product::find($id);
         $departments = DB::table('department_product')->where('product_id',$id)->get('department_id')->unique('department_id')->toArray();
         foreach($departments as $department) {
            $resultArray->push(Department::where('id',$department->department_id)->first());
@@ -148,7 +151,7 @@ class ProductsController extends Controller
                 'user_id' => $request->user,
                 'product_id' => $prod->id,
                 'quantity' => $order->quantity,
-                'buy_price' => $prod->price
+                'buy_price' => $prod->discount_price < $prod->price ? $prod->discount_price : $prod->price
             ]);
             //добавляем в список заказов
         }
@@ -181,10 +184,12 @@ class ProductsController extends Controller
             'user_id' => $request->user_id,
             'product_id' => $id,
             'quantity' => $quantity,
-            'buy_price' => $prod->price
+            'buy_price' =>  $prod->discount_price > $prod->price ? $prod->discount_price : $prod->price
         ]);
-        $prod->departments()->updateExistingPivot($prod->id,[
-            'quantity' => $prod->departments->first()->pivot->quantity - $quantity
-        ]);
+    }
+    public function setDiscount(Request $request, $id) {
+        $prod = Product::findOrFail($id);
+        $prod->discount_price = $request->discountPrice;
+        $prod->save();
     }
 }

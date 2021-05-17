@@ -104,6 +104,13 @@ export default {
                     variant : 'danger'
                 })
             }
+        },
+        async findProduct() {
+            let a = await axios.post('/api/products/search',{
+                query : this.productSearch
+            })
+            this.products = a.data
+            console.log(this.$refs)
         }
     }
 }

@@ -19,19 +19,7 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::namespace('Api')->group(function () {
-    Route::apiResource('users', 'UsersController');
-    Route::apiResource('roles', 'RolesController');
-    Route::apiResource('products', 'ProductsController');
-    Route::apiResource('categories', 'CategoriesController');
-    Route::apiResource('dealers', 'DealersController');
-    Route::apiResource('departments', 'DepartmentsController');
-    Route::apiResource('permissions', 'PermissionsController');
-    Route::apiResource('statuses', 'StatusesController');
-    Route::apiResource('workers', 'WorkersController');
-    Route::apiResource('news', 'NewsController');
-    Route::apiResource('comments', 'CommentsController');
-    Route::apiResource('orders','OrderController');
-
+    Route::post('/products/{id}/discount', 'ProductsController@setDiscount');
     Route::get('/sales','OrderController@getSales');
     Route::post('/{section}/{id}/file', 'FileController@updateFile');
     Route::post('/departments/products', 'DepartmentsController@productAdd');
@@ -51,4 +39,24 @@ Route::namespace('Api')->group(function () {
     Route::post('/filter','ProductsController@filter');
     Route::post('products/{id}/buy', 'ProductsController@makeOrder');
 
+
+
+
+    /*          -------      -------- ---            */
+
+
+
+
+    Route::apiResource('users', 'UsersController');
+    Route::apiResource('roles', 'RolesController');
+    Route::apiResource('products', 'ProductsController');
+    Route::apiResource('categories', 'CategoriesController');
+    Route::apiResource('dealers', 'DealersController');
+    Route::apiResource('departments', 'DepartmentsController');
+    Route::apiResource('permissions', 'PermissionsController');
+    Route::apiResource('statuses', 'StatusesController');
+    Route::apiResource('workers', 'WorkersController');
+    Route::apiResource('news', 'NewsController');
+    Route::apiResource('comments', 'CommentsController');
+    Route::apiResource('orders','OrderController');
 });

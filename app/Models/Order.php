@@ -18,4 +18,7 @@ class Order extends Model
     public function products() {
         return $this->hasMany('App\Product');
     }
+    public function users() {
+        return $this->hasOne('App\User');
+    }
 }

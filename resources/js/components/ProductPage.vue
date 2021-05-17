@@ -19,7 +19,16 @@
                 </div>
                 <div>
                   <strong>
-                      Цена : {{ product.price }} руб.
+                      Цена :
+                        <span v-if="product.discount_price==0">
+                            {{ product.price }} руб.
+                        </span>
+                        <span v-else>
+                            <s class="text-danger">
+                                {{ product.price }}
+                            </s>
+                            <span>{{  product.discount_price  }}руб.</span>
+                        </span>
                   </strong>
                 </div>
                 <div class="mt-2">

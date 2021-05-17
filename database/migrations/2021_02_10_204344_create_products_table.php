@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->text('contraindications')->nullable();
             $table->float('price');
+            $table->float('discount_price')->default(0);
             $table->timestamps();
         });
     }

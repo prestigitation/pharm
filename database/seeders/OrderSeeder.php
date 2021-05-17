@@ -46,7 +46,7 @@ class OrderSeeder extends Seeder
         ];
         foreach($orders as $order) {
             \App\Models\Order::create([
-                'user_id'=> $order['user_id'],
+                'user_id' => $order['user_id'],
                 'product_id' => $order['product_id'],
                 'quantity' => $order['quantity'],
                 'buy_price' => $order['buy_price'],

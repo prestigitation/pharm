@@ -14,7 +14,16 @@
                    <div> {{ product.category }}</div>
                </div>
                <div slot="price" class="text-center">
-                   {{ product.price }}руб.
+                   <span v-if="product.discount_price==0">
+                       {{ product.price }} руб.
+                   </span>
+                   <span v-else>
+                       <s class="text-danger">
+                           {{ product.price }}
+                       </s>
+                       <span>{{  product.discount_price  }}руб.</span>
+                   </span>
+
                     <b-button variant="warning" size="sm" @click="addItemToCart(product.id,1)">
                         🛒
                     </b-button>

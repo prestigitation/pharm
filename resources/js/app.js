@@ -74,6 +74,7 @@ Vue.component('UserMainInfo', require('./components/UserMainInfo.vue').default);
 Vue.component('QuantitySelector', require('./components/QuantitySelector.vue').default);
 Vue.component('ProductReview', require('./components/ProductReview.vue').default);
 Vue.component('Comment', require('./components/Comment.vue').default);
+Vue.component('ProductsSearch', require('./components/Dashboard/ProductsSearch.vue').default)
 
 Vue.use(PortalVue);
 Vue.use(BootstrapVue);
